@@ -27,7 +27,7 @@ module.exports = function(sequelize, DataTypes) {
 		timestamps : false,
 		classMethods : {
 			associate : function(models) {
-				User.hasOne(models.employee, {
+				Contact.hasOne(models.employee, {
 					as : 'Employee',
 					foreignKey: 'email_employee'
 				});

@@ -1,5 +1,4 @@
-module.exports =  {
-	getAppkeys : function() {
+exports.getAppkeys = function() {
 		var fs = require("fs");
 		var d = null;
 		fs.readFile('./config.json', 'utf-8' ,function(err, data) {
@@ -16,6 +15,12 @@ module.exports =  {
 			console.log(d);
 			return d;
 		});
-		
-	}
-}
+};
+
+exports.getNonce = function() {
+	return Math.random().toString(36).substring(5);
+};
+
+exports.getTimestamp = function() {
+	return Date.now();
+};

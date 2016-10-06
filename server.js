@@ -10,11 +10,13 @@ var Grant = require('grant-express');
 var grant = new Grant(require('./config.json'));
 
 // MODULES
+var tools = require('./app/tools');
+var frontend = require('./config/frontend');
 
 // VARIABLES
 var oauth_var = null;
 var signature_parameters = null;
-var url_frontend = "http://localhost:8080";
+
 
 // Initialize express
 var app = express()
@@ -31,9 +33,9 @@ app.get('/handle_xing_callback', function(req, res) {
 
 	var ouath_authentication = req.query;
 	createKeys(ouath_authentication);
-	res.redirect('/sign');
+	res.redirect('/api/xing/sign');
 });
-app.get('/sign', function(req, res) {
+app.get('/api/xing/sign', function(req, res) {
 
 	var url = "https://api.xing.com/v1"
 	var s = createSignaturePlain();
@@ -46,23 +48,14 @@ app.get('/sign', function(req, res) {
 	res.end(JSON.stringify(data, null, 2));
 });
 
-app.get('/logout', function(req, res) {
-	oauth_var = null;
-	signature_parameters = null;
-	req.session = null;
-
-	res.redirect(url_frontend);
-});
+//app.get('/api/xing/logout', function(req, res) {
+//	
+//});
 
 
 // FUNCTIONS
-
 function createSignaturePlain() {
 	if (signature_parameters != null && oauth_var != null) {
-
-		console.log(oauth_var);
-		console.log(signature_parameters);
-
 		return oauth_var.consumer_secret + "%26" + oauth_var.oauth_token_secret;
 	}
 	return "error in calculating a signature";
@@ -73,9 +66,9 @@ function createKeys(ouath_authentication) {
 	signature_parameters = {
 		consumer_key : "fd305e7cfa9ce4a82581",
 		oauth_token : ouath_authentication.access_token,
-		oauth_nonce : getNonce(),
+		oauth_nonce : tools.getNonce(),
 		oauth_signature_method : 'PLAINTEXT',
-		oauth_timestamp : getTimestamp(),
+		oauth_timestamp : tools.getTimestamp(),
 		oauth_version : '1.0'
 	};
 
@@ -88,17 +81,12 @@ function createKeys(ouath_authentication) {
 
 };
 
-function getNonce() {
-	return Math.random().toString(36).substring(5);
-};
 
-function getTimestamp() {
-	return Date.now();
-};
 
 
 //==================API-ROUTES=================================
-require('./app/routes/empl')(app); //get the employee routes
+require('./app/routes/xing')(app); //get the xing routes
+//require('./app/routes/empl')(app); //get the employee routes
 require('./app/routes/sales')(app); //get the sales routes
 
 //==================SERVER=====================================
