@@ -6,6 +6,6 @@
   "xing": {
     "key": "fd305e7cfa9ce4a82581",
     "secret": "071018184da8093ecadaec78ac251963c9a39b9c",
-    "callback": "/handle_xing_callback"
+    "callback": "/api/xing/callback"
   }
 }

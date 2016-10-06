@@ -1,7 +1,7 @@
 exports.getAppkeys = function() {
 		var fs = require("fs");
 		var d = null;
-		fs.readFile('./config.json', 'utf-8' ,function(err, data) {
+		fs.readFileSync('./config.json', 'utf-8' ,function(err, data) {
 			if (err) {
 				console.log(err);
 				process.exit(1);
