@@ -1,0 +1,8 @@
+# DB-Config
+/dbConfig.json
+/loggerConfig.json
+/frontendConfig.json
+/server.crt
+/newServer.key
+/localCert.cer
+/gcmAPIconfig.json
