@@ -17,7 +17,7 @@ exports.getAllContacts = function(req, res){
 				}else{
 					res.statusCode = 404;
 					res.send({
-						error: false,
+						error: true,
 						message:"Es wurden keine Kontakte  gefunden."
 					});
 					return;

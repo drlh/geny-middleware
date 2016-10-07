@@ -1,6 +1,6 @@
 {
-	"name": "EFM-API",
-	"description": "EnerplexFieldManager - API",
+	"name": "geny-API",
+	"description": "geny-API",
 	"main": "server.js",
 	"version": "0.0.1",
 	"private": true,
