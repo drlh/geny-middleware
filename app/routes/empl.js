@@ -4,7 +4,8 @@ module.exports = function(app) {
 
 	var empl = require('../controllers/empl');
 
-	app.get('/api/empl', empl.findEmployee);
-	
-	app.post('/api/empl', empl.createEmployee);
+//	app.get('/api/empl', empl.findEmployee);
+//	
+//	app.post('/api/empl', empl.createEmployee);
+	app.post('/api/empl/contact', empl.addContact);
 }
