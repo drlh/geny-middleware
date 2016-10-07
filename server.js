@@ -2,9 +2,7 @@
 
 // Modules
 var express = require('express');
-var logger = require('morgan');
 var session = require('express-session');
-//var fs = require("fs");
 
 var Grant = require('grant-express');
 var grant = new Grant(require('./config.json'));
