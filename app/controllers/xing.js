@@ -8,10 +8,9 @@ var oauth = null;
 console.log(keys)
 var signature_parameters = null;
 
-var apiBaseUrl = "https://api.xing.com:";
-
 // CONSTANTS
-
+const apiBaseUrl = "https://api.xing.com:";
+const url_succesful_login = "http://localhost:8080/#/empl/login";
 const userfields = '&user_fields=id,display_name,active_email,gender,professional_experience.primary_company.name,professional_experience.primary_company.title,permalink';
 
 // EXPORTS
@@ -102,8 +101,11 @@ exports.getAllContactIds = function(req, res) {
 			  
 			  data = JSON.parse(""+data);
 			  
+			  var total_contacts = data.contact_ids.items.length
+			  
 			  res.end(JSON.stringify({
 			    	"error" : false,
+			    	"total_contacts" : total_contacts,
 			    	"data" : data
 			    }, null, 2));
 		  }
@@ -112,38 +114,17 @@ exports.getAllContactIds = function(req, res) {
 
 exports.getAllContacts = function(req, res) {
 	
-	if(!req.query){
-		res.statusCode = 400;
-		res.send({
-			error: false,
-			message: "Es wurden keine Suchkriterien uebergeben."
-		});
-		return;
-	}else{
-		https.get('https://api.xing.com:/v1/users/me.json'+createSuffix(), (result) => {
-			  result.setEncoding('utf8');
-			  console.log('statusCode:', result.statusCode);
-			  console.log('headers:', result.headers);
-
-			  result.on('data', (d) => {
-				  res.statusCode = 200;
-					res.send({
-						error: false,
-						message:"Es wurden "  + d.length + " User  gefunden.",
-						users : d.users
-					});
-					return;
-			  });
-
-			}).on('error', (e) => {
-				res.statusCode = 404;
-				res.send({
-					error: true,
-					message: e
-				});
-				return;
-			});
-	}
+	request(apiBaseUrl + '/v1/users/me/contacts.json'+ createSuffix() + userfields + '&limit=100', function (error, response, data) {
+		  if (!error && response.statusCode == 200) {
+			  
+			  data = JSON.parse(""+data);
+			  
+			  res.end(JSON.stringify({
+			    	"error" : false,
+			    	"data" : data
+			    }, null, 2));
+		  }
+		})
 };
 
 exports.getPathFromMe = function(req, res) {
@@ -181,7 +162,7 @@ exports.reqSignature = function(req, res) {
 		token : signature_parameters,
 		oauth : oauth
 	}
-	res.end(JSON.stringify(data, null, 2));
+	res.redirect(url_succesful_login);
 };
 
 exports.logout = function(req, res) {

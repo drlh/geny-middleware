@@ -1,9 +1,9 @@
 var host = "localhost",
-	port = "8000";
+	port = "8080";
 
 module.exports = 
 {
 	host : host,
 	port : port,
-	full : host + ":" + port
+	full : 'http://'+host + ":" + port
 };

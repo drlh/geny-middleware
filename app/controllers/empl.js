@@ -45,3 +45,6 @@ exports.addContact = function(req, res){
 		});		
 	}
 };
+
+exports.addAllContacts = function(req, res){};
+exports.removeContacts = function(req, res){};
