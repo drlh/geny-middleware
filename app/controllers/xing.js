@@ -24,6 +24,11 @@ exports.xingCallback = function(req, res) {
 	res.redirect('/api/xing/sign');
 };
 
+exports.auth = function(req, res) {
+
+	res.redirect('/connect/xing');
+};
+
 exports.getMe = function(req, res) {
 	
 	request(apiBaseUrl + '/v1/users/me.json'+ createSuffix(), function (error, response, data) {
@@ -99,7 +104,7 @@ exports.getAllContactIds = function(req, res) {
 			  
 			  res.end(JSON.stringify({
 			    	"error" : false,
-			    	"data" : data.users[0]
+			    	"data" : data
 			    }, null, 2));
 		  }
 		})

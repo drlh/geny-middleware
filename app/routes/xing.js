@@ -5,6 +5,7 @@ module.exports = function(app) {
 	var xing = require('../controllers/xing');
 
 	app.get('/api/xing/callback', xing.xingCallback);
+	app.get('/api/xing/login', xing.auth);
 	app.get('/api/xing/me', xing.getMe);
 	app.get('/api/xing/me/path', xing.getPathFromMe);
 	app.get('/api/xing/user', xing.getUser); // Daten zu einem User
