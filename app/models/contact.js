@@ -20,6 +20,12 @@ module.exports = function(sequelize, DataTypes) {
 			allowNull : false
 		},
 		position : DataTypes.STRING,
+		status : {
+			type : DataTypes.ENUM,
+			values : [ 'NEW', 'INTERESTING', 'UNINTERESTING', 'CONTACTED', 'INTERESTED', 'NEGOTIATION', 'DEAL' ],
+			defaultValue : 'NEW',
+			allowNull : false
+		},
 		phone : DataTypes.STRING,
 		picture : DataTypes.STRING
 	}, {
@@ -27,10 +33,7 @@ module.exports = function(sequelize, DataTypes) {
 		timestamps : false,
 		classMethods : {
 			associate : function(models) {
-				Contact.hasOne(models.employee, {
-					as : 'Employee',
-					foreignKey: 'email_employee'
-				});
+				Contact.belongsTo(models.employee, {foreignKey: 'email_employee'});
 			}
 		}
 	});

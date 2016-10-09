@@ -1,8 +1,14 @@
 var DB			= require('../models/index.js');
 var Contact 	= DB.contact;
+var Employee 	= DB.employee;
 
 exports.getAllContacts = function(req, res){
-	var query = Contact.findAll();
+	var query = Contact.findAll({
+		include : [{
+			model : Employee,
+			required : true
+		}]
+	});
 	
 	query.then(
 			function(contacts){
@@ -28,7 +34,7 @@ exports.getAllContacts = function(req, res){
 				res.statusCode = 500;
 				res.send({
 					error: true,
-					message:"Fehler beim Suchen der Staedte.",
+					message:"Fehler beim Suchen der Kontakte.",
 					err_msg: err
 				});
 				return;
@@ -37,7 +43,7 @@ exports.getAllContacts = function(req, res){
 };
 
 exports.getContactDetails = function(req, res){
-	var query = Contact.findAll();
+	var query = Employee.findAll();
 	
 	query.then(
 			function(contacts){
@@ -70,3 +76,7 @@ exports.getContactDetails = function(req, res){
 			}
 		);
 };
+
+exports.getAllEmployees = function(req, res){};
+
+exports.getEmployeeDetails = function(req, res){};

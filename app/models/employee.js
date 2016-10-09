@@ -12,7 +12,7 @@ module.exports = function(sequelize, DataTypes) {
 			allowNull : false
 		},
 		lastname : {
-			type: DataTypes.STRING,
+			type : DataTypes.STRING,
 			allowNull : false
 		},
 		phone : DataTypes.STRING,
@@ -20,7 +20,14 @@ module.exports = function(sequelize, DataTypes) {
 		picture : DataTypes.STRING
 	}, {
 		tableName : 'employees',
-		timestamps : false
+		timestamps : false,
+		classMethods : {
+			associate : function(models) {
+				Employee.hasMany(models.contact, {
+					foreignKey : 'email_employee'
+				});
+			}
+		}
 	});
 
 	return Employee;
