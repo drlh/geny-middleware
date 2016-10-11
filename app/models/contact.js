@@ -3,7 +3,7 @@
 module.exports = function(sequelize, DataTypes) {
 	var Contact = sequelize.define('contact', {
 		email_contact : {
-			type : DataTypes.INTEGER,
+			type : DataTypes.STRING,
 			primaryKey : true,
 			field : 'email_contact'
 		},
@@ -27,7 +27,8 @@ module.exports = function(sequelize, DataTypes) {
 			allowNull : false
 		},
 		phone : DataTypes.STRING,
-		picture : DataTypes.STRING
+		picture : DataTypes.STRING,
+		permalink : DataTypes.STRING
 	}, {
 		tableName : 'contacts',
 		timestamps : false,

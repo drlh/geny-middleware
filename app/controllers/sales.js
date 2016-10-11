@@ -144,3 +144,57 @@ exports.updateContactStatus = function(req, res){
 exports.getAllEmployees = function(req, res){};
 
 exports.getEmployeeDetails = function(req, res){};
+
+exports.getContactsStatus = function(req, res){
+	
+	var NEW	= 0, INTERESTING = 0, UNINTERESTING = 0, CONTACTED = 0,INTERESTED = 0,
+	NEGOTIATION = 0, DEAL = 0;
+	
+	var where = {
+			status : "NEW"
+	}
+	
+	Contact.count({where : where}).then(function (result) {
+			 NEW = result;
+			 where.status = "INTERESTING";
+				Contact.count({where : where}).then(function (result) {
+					INTERESTING = result;
+					 where.status = "UNINTERESTING";
+						Contact.count({where : where}).then(function (result) {
+							UNINTERESTING = result;
+							 where.status = "CONTACTED";
+								Contact.count({where : where}).then(function (result) {
+									CONTACTED = result;
+									 where.status = "INTERESTED";
+										Contact.count({where : where}).then(function (result) {
+											INTERESTED = result;
+											 where.status = "NEGOTIATION";
+											 Contact.count({where : where}).then(function (result) {
+												 NEGOTIATION = result;
+												 where.status = "DEAL";
+												 Contact.count({where : where}).then(function (result) {
+													 DEAL = result;
+														var response = {
+																NEW : NEW,
+																INTERESTING : INTERESTING,
+																UNINTERESTING : UNINTERESTING,
+																CONTACTED : CONTACTED,
+																INTERESTED : INTERESTED,
+																NEGOTIATION : NEGOTIATION,
+																DEAL : DEAL
+														}
+													 res.statusCode=200;
+													 res.send({
+													 error: false,
+													 result: response
+													 });
+													 return;
+												})
+											 });												 
+										 });
+								 });
+						 });
+				 });
+		 });
+	
+};

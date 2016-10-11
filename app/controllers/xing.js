@@ -11,7 +11,7 @@ var signature_parameters = null;
 // CONSTANTS
 const apiBaseUrl = "https://api.xing.com:";
 const url_succesful_login = "http://localhost:8080/#/empl/login";
-const userfields = '&user_fields=id,display_name,active_email,gender,professional_experience.primary_company.name,professional_experience.primary_company.title,permalink';
+const userfields = '&user_fields=id,display_name,active_email,first_name,last_name,photo_urls.size_256x256,business_address.phone,business_address.mobile_phone,gender,professional_experience.primary_company.name,professional_experience.primary_company.title,permalink';
 
 // EXPORTS
 

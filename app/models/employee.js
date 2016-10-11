@@ -3,7 +3,7 @@
 module.exports = function(sequelize, DataTypes) {
 	var Employee = sequelize.define('employee', {
 		email_employee : {
-			type : DataTypes.INTEGER,
+			type : DataTypes.STRING,
 			primaryKey : true,
 			field : 'email_employee'
 		},
@@ -16,6 +16,7 @@ module.exports = function(sequelize, DataTypes) {
 			allowNull : false
 		},
 		phone : DataTypes.STRING,
+		mobile : DataTypes.STRING,
 		position : DataTypes.STRING,
 		picture : DataTypes.STRING
 	}, {
