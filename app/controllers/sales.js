@@ -1,6 +1,7 @@
 var DB			= require('../models/index.js');
 var Contact 	= DB.contact;
 var Employee 	= DB.employee;
+var sequelize 	= DB.sequelize;
 
 exports.getAllContacts = function(req, res){
 	var query = Contact.findAll({
@@ -147,12 +148,13 @@ exports.getEmployeeDetails = function(req, res){};
 
 exports.getContactsStatus = function(req, res){
 	
-	var NEW	= 0, INTERESTING = 0, UNINTERESTING = 0, CONTACTED = 0,INTERESTED = 0,
-	NEGOTIATION = 0, DEAL = 0;
+	var NEW	= 0, INTERESTING = 0, UNINTERESTING = 0;
 	
 	var where = {
 			status : "NEW"
 	}
+	
+	var sql = 'SELECT COUNT(DISTINCT email_employee) AS dist_empl, COUNT(email_contact) as dist_cont FROM contacts';
 	
 	Contact.count({where : where}).then(function (result) {
 			 NEW = result;
@@ -162,37 +164,23 @@ exports.getContactsStatus = function(req, res){
 					 where.status = "UNINTERESTING";
 						Contact.count({where : where}).then(function (result) {
 							UNINTERESTING = result;
-							 where.status = "CONTACTED";
-								Contact.count({where : where}).then(function (result) {
-									CONTACTED = result;
-									 where.status = "INTERESTED";
-										Contact.count({where : where}).then(function (result) {
-											INTERESTED = result;
-											 where.status = "NEGOTIATION";
-											 Contact.count({where : where}).then(function (result) {
-												 NEGOTIATION = result;
-												 where.status = "DEAL";
-												 Contact.count({where : where}).then(function (result) {
-													 DEAL = result;
-														var response = {
-																NEW : NEW,
-																INTERESTING : INTERESTING,
-																UNINTERESTING : UNINTERESTING,
-																CONTACTED : CONTACTED,
-																INTERESTED : INTERESTED,
-																NEGOTIATION : NEGOTIATION,
-																DEAL : DEAL
-														}
-													 res.statusCode=200;
-													 res.send({
-													 error: false,
-													 result: response
-													 });
-													 return;
-												})
-											 });												 
-										 });
+							sequelize.query(sql, { raw: true }).then(function(result){
+								
+								var d = result[0][0];
+								var response = {
+										NEW : NEW,
+										INTERESTING : INTERESTING,
+										UNINTERESTING : UNINTERESTING,
+										total : d.dist_cont,
+										empl : d.dist_empl
+								}
+								 res.statusCode=200;
+								 res.send({
+								 error: false,
+								 result: response
 								 });
+								 return;
+							});
 						 });
 				 });
 		 });
